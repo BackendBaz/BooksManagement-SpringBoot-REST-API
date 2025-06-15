@@ -9,3 +9,7 @@ Run the Spring Boot App (on Windows):
 ```shell
 .\mvnw spring-boot:run
 ```
+
+# Features
+
+- **Swagger Documentation**

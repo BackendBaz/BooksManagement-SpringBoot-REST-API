@@ -39,9 +39,10 @@ public class BookController {
     // GET -> http://localhost:8080/api/books/C%23 (C#) {title}
     @GetMapping("/api/books/{title}")
     public Book getBookByTitle(@PathVariable String title) {
-        for (Book book : books)
-            if (book.getTitle().equalsIgnoreCase(title)) return book;
-        return null;
+        return books.stream()
+                .filter(book -> book.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElse(null);
     }
 
 }

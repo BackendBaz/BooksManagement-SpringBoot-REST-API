@@ -1,10 +1,7 @@
 package io.github.backendbaz.books.controller;
 
 import io.github.backendbaz.books.entity.Book;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,13 +37,21 @@ public class BookController {
                 .toList();
     }
 
-    // GET -> http://localhost:8080/api/books/C%23 (C#) {title}
+    // GET -> http://localhost:8080/api/books/C%23 (Path Parameter)
     @GetMapping("/api/books/{title}")
     public Book getBookByTitle(@PathVariable String title) {
         return books.stream()
                 .filter(book -> book.getTitle().equalsIgnoreCase(title))
                 .findFirst()
                 .orElse(null);
+    }
+
+    // POST -> http://localhost:8080/api/books
+    @PostMapping("/api/books")
+    public void createBook(@RequestBody Book newBook) {
+        boolean notExists = books.stream().noneMatch(book -> book.getTitle()
+                        .equalsIgnoreCase(newBook.getTitle()));
+        if (notExists) books.add(newBook);
     }
 
 }

@@ -13,15 +13,15 @@ public class BookController {
 
     private void initializeBooks() {
         books.addAll(List.of(
-                new Book("C#", "Anders Hejlsberg", "programming"),
-                new Book("Python", "Guido van Rossum", "programming"),
-                new Book("Java", "James Gosling", "programming"),
-                new Book("JavaScript", "Brendan Eich", "programming"),
-                new Book("PHP", "Rasmus Lerdorf", "programming"),
-                new Book("GoLang", "Robert Griesemer", "programming"),
-                new Book("C++", "Bjarne Stroustrup", "programming"),
-                new Book("Chemistry", "Antoine Lavoisier", "science"),
-                new Book("Physics", "Galileo Galilei", "science")
+                new Book(1, "C#", "Anders Hejlsberg", "programming", 9),
+                new Book(2, "Python", "Guido van Rossum", "programming", 3),
+                new Book(3, "Java", "James Gosling", "programming", 10),
+                new Book(4, "JavaScript", "Brendan Eich", "programming", 5),
+                new Book(5, "PHP", "Rasmus Lerdorf", "programming", 7),
+                new Book(6, "GoLang", "Robert Griesemer", "programming", 4),
+                new Book(7, "C++", "Bjarne Stroustrup", "programming", 9),
+                new Book(8, "Chemistry", "Antoine Lavoisier", "science", 1),
+                new Book(9, "Physics", "Galileo Galilei", "science", 1)
         ));
     }
 

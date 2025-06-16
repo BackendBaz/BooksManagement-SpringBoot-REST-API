@@ -52,13 +52,7 @@ public class BookController {
     @PostMapping
     public void createBook(@RequestBody BookRequest newBook) {
         long id = books.isEmpty() ? 1 : books.getLast().getId() + 1;
-        Book book = new Book(
-                id,
-                newBook.getTitle(),
-                newBook.getAuthor(),
-                newBook.getCategory(),
-                newBook.getRating()
-        );
+        Book book = convertToBook(id, newBook);
         books.add(book);
     }
 
@@ -77,6 +71,16 @@ public class BookController {
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable long id) {
         books.removeIf(book -> book.getId() == id);
+    }
+
+    private Book convertToBook(long id, BookRequest bookRequest) {
+        return new Book(
+                id,
+                bookRequest.getTitle(),
+                bookRequest.getAuthor(),
+                bookRequest.getCategory(),
+                bookRequest.getRating()
+        );
     }
 
 }

@@ -65,4 +65,10 @@ public class BookController {
                         books.set(books.indexOf(foundBook), updatedBook));
     }
 
+    // DELETE -> http://localhost:8080/api/books/java (Path Parameter)
+    @DeleteMapping("/api/books/{title}")
+    public void deleteBook(@PathVariable String title) {
+        books.removeIf(book -> book.getTitle().equalsIgnoreCase(title));
+    }
+
 }

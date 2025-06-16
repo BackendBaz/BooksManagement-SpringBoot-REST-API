@@ -59,12 +59,13 @@ public class BookController {
     // PUT -> http://localhost:8080/api/books/3 (Request Body - Path Parameter)
     @PutMapping("/{id}")
     public void updateBook(@PathVariable long id,
-                           @RequestBody Book updatedBook) {
+                           @RequestBody BookRequest updatedBook) {
         books.stream()
                 .filter(book -> book.getId() == id)
                 .findFirst()
                 .ifPresent(foundBook ->
-                        books.set(books.indexOf(foundBook), updatedBook));
+                        books.set(books.indexOf(foundBook),
+                                convertToBook(id, updatedBook)));
     }
 
     // DELETE -> http://localhost:8080/api/books/3 (Path Parameter)

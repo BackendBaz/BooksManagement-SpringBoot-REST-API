@@ -38,11 +38,11 @@ public class BookController {
                 .toList();
     }
 
-    // GET -> http://localhost:8080/api/books/C%23 (Path Parameter)
-    @GetMapping("/{title}")
-    public Book getBookByTitle(@PathVariable String title) {
+    // GET -> http://localhost:8080/api/books/3 (Path Parameter)
+    @GetMapping("/{id}")
+    public Book getBookById(@PathVariable long id) {
         return books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title))
+                .filter(book -> book.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
@@ -55,21 +55,21 @@ public class BookController {
         if (notExists) books.add(newBook);
     }
 
-    // PUT -> http://localhost:8080/api/books/java (Request Body - Path Parameter)
-    @PutMapping("/{title}")
-    public void updateBook(@PathVariable String title,
+    // PUT -> http://localhost:8080/api/books/3 (Request Body - Path Parameter)
+    @PutMapping("/{id}")
+    public void updateBook(@PathVariable long id,
                            @RequestBody Book updatedBook) {
         books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title))
+                .filter(book -> book.getId() == id)
                 .findFirst()
                 .ifPresent(foundBook ->
                         books.set(books.indexOf(foundBook), updatedBook));
     }
 
-    // DELETE -> http://localhost:8080/api/books/java (Path Parameter)
-    @DeleteMapping("/{title}")
-    public void deleteBook(@PathVariable String title) {
-        books.removeIf(book -> book.getTitle().equalsIgnoreCase(title));
+    // DELETE -> http://localhost:8080/api/books/3 (Path Parameter)
+    @DeleteMapping("/{id}")
+    public void deleteBook(@PathVariable long id) {
+        books.removeIf(book -> book.getId() == id);
     }
 
 }

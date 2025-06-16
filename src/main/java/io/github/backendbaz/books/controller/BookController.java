@@ -46,12 +46,23 @@ public class BookController {
                 .orElse(null);
     }
 
-    // POST -> http://localhost:8080/api/books
+    // POST -> http://localhost:8080/api/books (Request Body)
     @PostMapping("/api/books")
     public void createBook(@RequestBody Book newBook) {
         boolean notExists = books.stream().noneMatch(book -> book.getTitle()
                         .equalsIgnoreCase(newBook.getTitle()));
         if (notExists) books.add(newBook);
+    }
+
+    // PUT -> http://localhost:8080/api/books/java (Request Body - Path Parameter)
+    @PutMapping("/api/books/{title}")
+    public void updateBook(@PathVariable String title,
+                           @RequestBody Book updatedBook) {
+        books.stream()
+                .filter(book -> book.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .ifPresent(foundBook ->
+                        books.set(books.indexOf(foundBook), updatedBook));
     }
 
 }

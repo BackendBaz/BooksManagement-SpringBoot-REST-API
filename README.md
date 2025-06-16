@@ -5,7 +5,17 @@
 - **Framework: `Spring Boot 3.5.0`**
 - **Package Name: `io.github.backendbaz.books`**
 
-Run the Spring Boot App (on Windows):
+Clone the Project on your OS:
+```shell
+git clone https://github.com/BackendBaz/BooksManagement-SpringBoot-REST-API.git
+```
+
+Download and install all dependencies (on **Windows**):
+```shell
+.\mvnw clean install
+```
+
+Run the Spring Boot App (on **Windows**):
 ```shell
 .\mvnw spring-boot:run
 ```
@@ -13,3 +23,4 @@ Run the Spring Boot App (on Windows):
 # Features
 
 - **Swagger Documentation**
+- **`CRUD` endpoints by the BookController(`Create`, `Read`, `Update` and `Delete`)**

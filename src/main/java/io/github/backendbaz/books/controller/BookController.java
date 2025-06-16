@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/books")
 public class BookController {
 
     private final List<Book> books = new ArrayList<>();
@@ -29,7 +30,7 @@ public class BookController {
     }
 
     // GET -> http://localhost:8080/api/books?category=science (Query Parameter)
-    @GetMapping("/api/books")
+    @GetMapping
     public List<Book> getBooks(@RequestParam(required = false) String category) {
         if (category == null) return books;
         return books.stream()
@@ -38,7 +39,7 @@ public class BookController {
     }
 
     // GET -> http://localhost:8080/api/books/C%23 (Path Parameter)
-    @GetMapping("/api/books/{title}")
+    @GetMapping("/{title}")
     public Book getBookByTitle(@PathVariable String title) {
         return books.stream()
                 .filter(book -> book.getTitle().equalsIgnoreCase(title))
@@ -47,7 +48,7 @@ public class BookController {
     }
 
     // POST -> http://localhost:8080/api/books (Request Body)
-    @PostMapping("/api/books")
+    @PostMapping
     public void createBook(@RequestBody Book newBook) {
         boolean notExists = books.stream().noneMatch(book -> book.getTitle()
                         .equalsIgnoreCase(newBook.getTitle()));
@@ -55,7 +56,7 @@ public class BookController {
     }
 
     // PUT -> http://localhost:8080/api/books/java (Request Body - Path Parameter)
-    @PutMapping("/api/books/{title}")
+    @PutMapping("/{title}")
     public void updateBook(@PathVariable String title,
                            @RequestBody Book updatedBook) {
         books.stream()
@@ -66,7 +67,7 @@ public class BookController {
     }
 
     // DELETE -> http://localhost:8080/api/books/java (Path Parameter)
-    @DeleteMapping("/api/books/{title}")
+    @DeleteMapping("/{title}")
     public void deleteBook(@PathVariable String title) {
         books.removeIf(book -> book.getTitle().equalsIgnoreCase(title));
     }

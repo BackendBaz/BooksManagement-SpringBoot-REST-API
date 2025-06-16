@@ -1,6 +1,7 @@
 package io.github.backendbaz.books.controller;
 
 import io.github.backendbaz.books.entity.Book;
+import io.github.backendbaz.books.request.BookRequest;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +50,16 @@ public class BookController {
 
     // POST -> http://localhost:8080/api/books (Request Body)
     @PostMapping
-    public void createBook(@RequestBody Book newBook) {
-        boolean notExists = books.stream().noneMatch(book -> book.getTitle()
-                        .equalsIgnoreCase(newBook.getTitle()));
-        if (notExists) books.add(newBook);
+    public void createBook(@RequestBody BookRequest newBook) {
+        long id = books.isEmpty() ? 1 : books.getLast().getId() + 1;
+        Book book = new Book(
+                id,
+                newBook.getTitle(),
+                newBook.getAuthor(),
+                newBook.getCategory(),
+                newBook.getRating()
+        );
+        books.add(book);
     }
 
     // PUT -> http://localhost:8080/api/books/3 (Request Body - Path Parameter)

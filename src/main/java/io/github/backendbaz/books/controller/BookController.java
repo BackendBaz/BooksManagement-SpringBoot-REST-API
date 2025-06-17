@@ -4,6 +4,7 @@ import io.github.backendbaz.books.entity.Book;
 import io.github.backendbaz.books.request.BookRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class BookController {
     }
 
     // GET -> http://localhost:8080/api/books?category=science (Query Parameter)
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<Book> getBooks(@RequestParam(required = false) String category) {
         if (category == null) return books;
@@ -42,6 +44,7 @@ public class BookController {
     }
 
     // GET -> http://localhost:8080/api/books/3 (Path Parameter)
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable @Min(value = 1) long id) {
         return books.stream()
@@ -51,6 +54,7 @@ public class BookController {
     }
 
     // POST -> http://localhost:8080/api/books (Request Body)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void createBook(@Valid @RequestBody BookRequest newBook) {
         long id = books.isEmpty() ? 1 : books.getLast().getId() + 1;
@@ -59,6 +63,7 @@ public class BookController {
     }
 
     // PUT -> http://localhost:8080/api/books/3 (Request Body - Path Parameter)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public void updateBook(@PathVariable @Min(value = 1) long id,
                            @Valid @RequestBody BookRequest updatedBook) {
@@ -71,6 +76,7 @@ public class BookController {
     }
 
     // DELETE -> http://localhost:8080/api/books/3 (Path Parameter)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable @Min(value = 1) long id) {
         books.removeIf(book -> book.getId() == id);

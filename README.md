@@ -25,3 +25,4 @@ Run the Spring Boot App (on **Windows**):
 - **Swagger Documentation**
 - **`CRUD` endpoints by the BookController (`Create`, `Read`, `Update` and `Delete`)**
 - **Data Validation**
+- **Response Status**

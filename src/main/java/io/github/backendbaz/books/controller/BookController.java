@@ -85,15 +85,18 @@ public class BookController {
             description = "Update the details of an existing book")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void updateBook(@Parameter(description = "Id of the book to update")
+    public Book updateBook(@Parameter(description = "Id of the book to update")
                                @PathVariable @Min(value = 1) long id,
                            @Valid @RequestBody BookRequest updatedBook) {
-        books.stream()
+        Book foundBook = books.stream()
                 .filter(book -> book.getId() == id)
                 .findFirst()
-                .ifPresent(foundBook ->
-                        books.set(books.indexOf(foundBook),
-                                convertToBook(id, updatedBook)));
+                .orElseThrow(() ->
+                        new BookNotFoundException("Book is not found with id "
+                                + id));
+        Book editBook = convertToBook(id, updatedBook);
+        books.set(books.indexOf(foundBook), editBook);
+        return editBook;
     }
 
     // DELETE -> http://localhost:8080/api/books/3 (Path Parameter)
@@ -103,6 +106,8 @@ public class BookController {
     @DeleteMapping("/{id}")
     public void deleteBook(@Parameter(description = "Id of the book to delete")
                                @PathVariable @Min(value = 1) long id) {
+        if (books.stream().noneMatch(book -> book.getId() == id))
+            throw new BookNotFoundException("Book is not found with id " + id);
         books.removeIf(book -> book.getId() == id);
     }
 

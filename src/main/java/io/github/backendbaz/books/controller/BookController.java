@@ -1,6 +1,8 @@
 package io.github.backendbaz.books.controller;
 
 import io.github.backendbaz.books.entity.Book;
+import io.github.backendbaz.books.exception.BookErrorResponse;
+import io.github.backendbaz.books.exception.BookNotFoundException;
 import io.github.backendbaz.books.request.BookRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -8,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +64,9 @@ public class BookController {
         return books.stream()
                 .filter(book -> book.getId() == id)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() ->
+                        new BookNotFoundException("Book is not found with id "
+                                + id));
     }
 
     // POST -> http://localhost:8080/api/books (Request Body)
@@ -109,6 +114,16 @@ public class BookController {
                 bookRequest.getCategory(),
                 bookRequest.getRating()
         );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<BookErrorResponse> handleException(BookNotFoundException exception) {
+        BookErrorResponse response = new BookErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
 }

@@ -2,6 +2,7 @@ package io.github.backendbaz.books.controller;
 
 import io.github.backendbaz.books.entity.Book;
 import io.github.backendbaz.books.request.BookRequest;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class BookController {
 
     // POST -> http://localhost:8080/api/books (Request Body)
     @PostMapping
-    public void createBook(@RequestBody BookRequest newBook) {
+    public void createBook(@Valid @RequestBody BookRequest newBook) {
         long id = books.isEmpty() ? 1 : books.getLast().getId() + 1;
         Book book = convertToBook(id, newBook);
         books.add(book);
@@ -60,7 +61,7 @@ public class BookController {
     // PUT -> http://localhost:8080/api/books/3 (Request Body - Path Parameter)
     @PutMapping("/{id}")
     public void updateBook(@PathVariable @Min(value = 1) long id,
-                           @RequestBody BookRequest updatedBook) {
+                           @Valid @RequestBody BookRequest updatedBook) {
         books.stream()
                 .filter(book -> book.getId() == id)
                 .findFirst()
